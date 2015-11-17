@@ -41,7 +41,7 @@ namespace Microsoft.AspNet.Server.Kestrel.Networking
 
         public unsafe void Write(
             UvStreamHandle handle,
-            ArraySegment<ArraySegment<byte>> bufs,
+            ArraySegment<MemoryPoolBlock2> bufs,
             Action<UvWriteReq, int, Exception, object> callback,
             object state)
         {
@@ -66,11 +66,9 @@ namespace Microsoft.AspNet.Server.Kestrel.Networking
                     // create and pin each segment being written
                     var buf = bufs.Array[bufs.Offset + index];
 
-                    var gcHandle = GCHandle.Alloc(buf.Array, GCHandleType.Pinned);
-                    _pins.Add(gcHandle);
                     pBuffers[index] = Libuv.buf_init(
-                        gcHandle.AddrOfPinnedObject() + buf.Offset,
-                        buf.Count);
+                        buf.Pin() - buf.End + buf.Start,
+                        buf.End - buf.Start);
                 }
 
                 _callback = callback;

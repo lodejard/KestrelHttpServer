@@ -201,12 +201,18 @@ namespace Microsoft.AspNet.Server.KestrelTests
                             {
                                 var req = new UvWriteReq(new KestrelTrace(new TestKestrelTrace()));
                                 req.Init(loop);
+                                var block = MemoryPoolBlock2.Create(
+                                    new ArraySegment<byte>(new byte[] { 65, 66, 67, 68, 69 }),
+                                    dataPtr: IntPtr.Zero,
+                                    pool: null,
+                                    slab: null);
                                 req.Write(
                                     tcp2,
-                                    new ArraySegment<ArraySegment<byte>>(
-                                        new[] { new ArraySegment<byte>(new byte[] { 65, 66, 67, 68, 69 }) }
-                                        ),
-                                    (_1, _2, _3, _4) => { },
+                                    new ArraySegment<MemoryPoolBlock2>(new[] { block }),
+                                    (_1, _2, _3, _4) =>
+                                    {
+                                        block.Unpin();
+                                    },
                                     null);
                             }
                         }

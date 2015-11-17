@@ -19,6 +19,7 @@ namespace Microsoft.AspNet.Server.Kestrel.Http
 
         private readonly KestrelThread _thread;
         private readonly UvStreamHandle _socket;
+        private readonly MemoryPool2 _memory;
         private readonly Connection _connection;
         private readonly long _connectionId;
         private readonly IKestrelTrace _log;
@@ -38,12 +39,14 @@ namespace Microsoft.AspNet.Server.Kestrel.Http
         public SocketOutput(
             KestrelThread thread,
             UvStreamHandle socket,
+            MemoryPool2 memory,
             Connection connection,
             long connectionId,
             IKestrelTrace log)
         {
             _thread = thread;
             _socket = socket;
+            _memory = memory;
             _connection = connection;
             _connectionId = connectionId;
             _log = log;
@@ -56,27 +59,16 @@ namespace Microsoft.AspNet.Server.Kestrel.Http
             bool socketShutdownSend = false,
             bool socketDisconnect = false)
         {
-            //TODO: need buffering that works
-            if (buffer.Array != null)
-            {
-                var copy = new byte[buffer.Count];
-                Array.Copy(buffer.Array, buffer.Offset, copy, 0, buffer.Count);
-                buffer = new ArraySegment<byte>(copy);
-                _log.ConnectionWrite(_connectionId, buffer.Count);
-            }
+            _log.ConnectionWrite(_connectionId, buffer.Count);
 
             TaskCompletionSource<object> tcs = null;
+            var blocks = CopyBuffer(buffer);
 
             lock (_lockObj)
             {
                 if (_nextWriteContext == null)
                 {
                     _nextWriteContext = new WriteContext(this);
-                }
-
-                if (buffer.Array != null)
-                {
-                    _nextWriteContext.Buffers.Enqueue(buffer);
                 }
                 if (socketShutdownSend)
                 {
@@ -87,30 +79,58 @@ namespace Microsoft.AspNet.Server.Kestrel.Http
                     _nextWriteContext.SocketDisconnect = true;
                 }
 
-                if (!immediate)
+                for (int i = 0; i < blocks.Length - 1; i++)
                 {
-                    // immediate==false calls always return complete tasks, because there is guaranteed
-                    // to be a subsequent immediate==true call which will go down one of the previous code-paths
-                    _numBytesPreCompleted += buffer.Count;
+                    _nextWriteContext.Blocks.Enqueue(blocks[i]);
                 }
-                else if (_lastWriteError == null &&
-                        _tasksPending.Count == 0 &&
-                        _numBytesPreCompleted + buffer.Count <= _maxBytesPreCompleted)
+
+                if (blocks.Length > 0)
                 {
-                    // Complete the write task immediately if all previous write tasks have been completed,
-                    // the buffers haven't grown too large, and the last write to the socket succeeded.
-                    _numBytesPreCompleted += buffer.Count;
-                }
-                else
-                {
-                    // immediate write, which is not eligable for instant completion above
-                    tcs = new TaskCompletionSource<object>(buffer.Count);
-                    _tasksPending.Enqueue(tcs);
+                    var block = blocks[blocks.Length - 1];
+
+                    _nextWriteContext.Blocks.Enqueue(block);
+
+                    if (!immediate)
+                    {
+                        // immediate==false calls always return complete tasks, because there is guaranteed
+                        // to be a subsequent immediate==true call which will go down one of the previous code-paths
+                        _numBytesPreCompleted += buffer.Count;
+                    }
+                    else if (_lastWriteError == null &&
+                            _tasksPending.Count == 0 &&
+                            _numBytesPreCompleted + buffer.Count <= _maxBytesPreCompleted)
+                    {
+                        // Complete the write task immediately if all previous write tasks have been completed,
+                        // the buffers haven't grown too large, and the last write to the socket succeeded.
+                        _numBytesPreCompleted += buffer.Count;
+                    }
+                    else
+                    {
+                        // immediate write, which is not eligable for instant completion above
+                        tcs = new TaskCompletionSource<object>(buffer.Count);
+                        _tasksPending.Enqueue(tcs);
+                    }
                 }
 
                 if (_writesPending < _maxPendingWrites && immediate)
                 {
-                    ScheduleWrite();
+                    try
+                    {
+                        ScheduleWrite();
+                    }
+                    catch
+                    {
+                        _nextWriteContext.Blocks.Dequeue();
+
+                        foreach (var block in blocks)
+                        {
+                            block.Unpin();
+                            _memory.Return(block);
+                        }
+
+                        throw;
+                    }
+
                     _writesPending++;
                 }
             }
@@ -136,6 +156,32 @@ namespace Microsoft.AspNet.Server.Kestrel.Http
                         socketDisconnect: true);
                     break;
             }
+        }
+
+        private MemoryPoolBlock2[] CopyBuffer(ArraySegment<byte> buffer)
+        {
+            var maxBlockSize = 2048;
+
+            var remaining = buffer.Count;
+            var srcOffset = buffer.Offset;
+            var numBlocks = (remaining + maxBlockSize - 1) / maxBlockSize;
+            var buffers = new MemoryPoolBlock2[numBlocks];
+            var i = 0;
+
+            while (remaining > 0)
+            {
+                var block = _memory.Lease(2048);
+
+                var limit = Math.Min(2048, remaining);
+                Buffer.BlockCopy(buffer.Array, srcOffset, block.Array, block.Start, limit);
+                block.End += limit;
+                srcOffset += limit;
+                remaining -= limit;
+
+                buffers[i++] = block;
+            }
+
+            return buffers;
         }
 
         private void ScheduleWrite()
@@ -175,12 +221,18 @@ namespace Microsoft.AspNet.Server.Kestrel.Http
                     _writesPending--;
                 }
 
+                foreach (var block in writingContext.Blocks)
+                {
+                    block.Unpin();
+                    _memory.Return(block);
+                }
+
                 throw;
             }
         }
 
         // This is called on the libuv event loop
-        private void OnWriteCompleted(Queue<ArraySegment<byte>> writtenBuffers, int status, Exception error)
+        private void OnWriteCompleted(Queue<MemoryPoolBlock2> writtenBuffers, int status, Exception error)
         {
             _log.ConnectionWriteCallback(_connectionId, status);
 
@@ -207,7 +259,9 @@ namespace Microsoft.AspNet.Server.Kestrel.Http
                 {
                     // _numBytesPreCompleted can temporarily go negative in the event there are
                     // completed writes that we haven't triggered callbacks for yet.
-                    _numBytesPreCompleted -= writeBuffer.Count;
+                    _numBytesPreCompleted -= writeBuffer.End - writeBuffer.Start;
+                    writeBuffer.Unpin();
+                    _memory.Return(writeBuffer);
                 }
                 
                 // bytesLeftToBuffer can be greater than _maxBytesPreCompleted
@@ -265,7 +319,7 @@ namespace Microsoft.AspNet.Server.Kestrel.Http
         {
             public SocketOutput Self;
 
-            public Queue<ArraySegment<byte>> Buffers;
+            public Queue<MemoryPoolBlock2> Blocks;
             public bool SocketShutdownSend;
             public bool SocketDisconnect;
 
@@ -277,7 +331,7 @@ namespace Microsoft.AspNet.Server.Kestrel.Http
             public WriteContext(SocketOutput self)
             {
                 Self = self;
-                Buffers = new Queue<ArraySegment<byte>>();
+                Blocks = new Queue<MemoryPoolBlock2>();
             }
 
             /// <summary>
@@ -285,23 +339,23 @@ namespace Microsoft.AspNet.Server.Kestrel.Http
             /// </summary>
             public void DoWriteIfNeeded()
             {
-                if (Buffers.Count == 0 || Self._socket.IsClosed)
+                if (Blocks.Count == 0 || Self._socket.IsClosed)
                 {
                     DoShutdownIfNeeded();
                     return;
                 }
 
-                var buffers = new ArraySegment<byte>[Buffers.Count];
+                var buffers = new MemoryPoolBlock2[Blocks.Count];
 
                 var i = 0;
-                foreach (var buffer in Buffers)
+                foreach (var block in Blocks)
                 {
-                    buffers[i++] = buffer;
+                    buffers[i++] = block;
                 }
 
                 var writeReq = new UvWriteReq(Self._log);
                 writeReq.Init(Self._thread.Loop);
-                writeReq.Write(Self._socket, new ArraySegment<ArraySegment<byte>>(buffers), (_writeReq, status, error, state) =>
+                writeReq.Write(Self._socket, new ArraySegment<MemoryPoolBlock2>(buffers), (_writeReq, status, error, state) =>
                 {
                     _writeReq.Dispose();
                     var _this = (WriteContext)state;
@@ -354,7 +408,7 @@ namespace Microsoft.AspNet.Server.Kestrel.Http
 
             public void Complete()
             {
-                Self.OnWriteCompleted(Buffers, WriteStatus, WriteError);
+                Self.OnWriteCompleted(Blocks, WriteStatus, WriteError);
             }
         }
     }

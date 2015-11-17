@@ -64,14 +64,20 @@ namespace Microsoft.AspNet.Server.KestrelTests
 
                 var writeRequest = new UvWriteReq(new KestrelTrace(new TestKestrelTrace()));
                 writeRequest.Init(loop);
+                var block = MemoryPoolBlock2.Create(
+                    new ArraySegment<byte>(new byte[] { 1, 2, 3, 4 }),
+                    dataPtr: IntPtr.Zero,
+                    pool: null,
+                    slab: null);
                 writeRequest.Write(
                     serverConnectionPipe,
-                    new ArraySegment<ArraySegment<byte>>(new ArraySegment<byte>[] { new ArraySegment<byte>(new byte[] { 1, 2, 3, 4 }) }),
+                    new ArraySegment<MemoryPoolBlock2>(new[] { block }),
                     (_3, status2, error2, _4) =>
                     {
                         writeRequest.Dispose();
                         serverConnectionPipe.Dispose();
                         serverListenPipe.Dispose();
+                        block.Unpin();
                     },
                     null);
 
