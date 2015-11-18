@@ -241,7 +241,7 @@ namespace Microsoft.AspNet.Server.Kestrel.Http
         {{
             {header.SetBit()};
             _{header.Identifier} = value; 
-            _raw{header.Identifier} = null;
+            _raw{header.Identifier} = raw;
         }}")}
 
         protected override int GetCountFast()

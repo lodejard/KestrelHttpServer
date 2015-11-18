@@ -5377,31 +5377,31 @@ namespace Microsoft.AspNet.Server.Kestrel.Http
         {
             _bits |= 2L;
             _Connection = value; 
-            _rawConnection = null;
+            _rawConnection = raw;
         }
         public void SetRawDate(StringValues value, byte[] raw)
         {
             _bits |= 4L;
             _Date = value; 
-            _rawDate = null;
+            _rawDate = raw;
         }
         public void SetRawTransferEncoding(StringValues value, byte[] raw)
         {
             _bits |= 64L;
             _TransferEncoding = value; 
-            _rawTransferEncoding = null;
+            _rawTransferEncoding = raw;
         }
         public void SetRawContentLength(StringValues value, byte[] raw)
         {
             _bits |= 2048L;
             _ContentLength = value; 
-            _rawContentLength = null;
+            _rawContentLength = raw;
         }
         public void SetRawServer(StringValues value, byte[] raw)
         {
             _bits |= 67108864L;
             _Server = value; 
-            _rawServer = null;
+            _rawServer = raw;
         }
 
         protected override int GetCountFast()
