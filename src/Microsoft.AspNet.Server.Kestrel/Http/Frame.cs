@@ -28,16 +28,16 @@ namespace Microsoft.AspNet.Server.Kestrel.Http
         private static readonly ArraySegment<byte> _emptyData = new ArraySegment<byte>(new byte[0]);
         private static readonly byte[] _hex = Encoding.ASCII.GetBytes("0123456789abcdef");
 
-        private static readonly byte[] _bytesEndLine = Encoding.ASCII.GetBytes("\r\n");
-        private static readonly byte[] _bytesConnectionClose = Encoding.ASCII.GetBytes("Connection: close\r\n\r\n");
-        private static readonly byte[] _bytesConnectionKeepAlive = Encoding.ASCII.GetBytes("Connection: keep-alive\r\n\r\n");
-        private static readonly byte[] _bytesTransferEncodingChunked = Encoding.ASCII.GetBytes("Transfer-Encoding: chunked\r\n");
+        private static readonly byte[] _bytesConnectionClose = Encoding.ASCII.GetBytes("\r\nConnection: close");
+        private static readonly byte[] _bytesConnectionKeepAlive = Encoding.ASCII.GetBytes("\r\nConnection: keep-alive");
+        private static readonly byte[] _bytesTransferEncodingChunked = Encoding.ASCII.GetBytes("\r\nTransfer-Encoding: chunked");
         private static readonly byte[] _bytesHttpVersion1_0 = Encoding.ASCII.GetBytes("HTTP/1.0 ");
         private static readonly byte[] _bytesHttpVersion1_1 = Encoding.ASCII.GetBytes("HTTP/1.1 ");
-        private static readonly byte[] _bytesContentLengthZero = Encoding.ASCII.GetBytes("Content-Length: 0\r\n");
+        private static readonly byte[] _bytesContentLengthZero = Encoding.ASCII.GetBytes("\r\nContent-Length: 0");
         private static readonly byte[] _bytesSpace = Encoding.ASCII.GetBytes(" ");
-        private static readonly byte[] _bytesServer = Encoding.ASCII.GetBytes("Server: Kestrel\r\n");
+        private static readonly byte[] _bytesServer = Encoding.ASCII.GetBytes("\r\nServer: Kestrel");
         private static readonly byte[] _bytesDate = Encoding.ASCII.GetBytes("Date: ");
+        private static readonly byte[] _bytesEndHeaders = Encoding.ASCII.GetBytes("\r\n\r\n");
 
         private readonly object _onStartingSync = new Object();
         private readonly object _onCompletedSync = new Object();
@@ -57,7 +57,7 @@ namespace Microsoft.AspNet.Server.Kestrel.Http
         private bool _keepAlive;
         private bool _autoChunk;
         private Exception _applicationException;
-        
+
         private HttpVersionType _httpVersion;
 
         private readonly IPEndPoint _localEndPoint;
@@ -179,8 +179,12 @@ namespace Microsoft.AspNet.Server.Kestrel.Http
         public void ResetResponseHeaders()
         {
             _responseHeaders.Reset();
-            _responseHeaders.HasDefaultDate = true; 
-            _responseHeaders.HasDefaultServer = true;
+            _responseHeaders.SetRawDate(
+                DateHeaderValueManager.GetDateHeaderValue(),
+                DateHeaderValueManager.GetDateHeaderValueBytes());
+            _responseHeaders.SetRawServer(
+                "Kestrel",
+                _bytesServer);
         }
 
         /// <summary>
@@ -540,7 +544,7 @@ namespace Microsoft.AspNet.Server.Kestrel.Http
                     ReasonPhrase = null;
 
                     ResetResponseHeaders();
-                    _responseHeaders.HeaderContentLength = "0";
+                    _responseHeaders.SetRawContentLength("0", _bytesContentLengthZero);
                 }
             }
 
@@ -559,96 +563,25 @@ namespace Microsoft.AspNet.Server.Kestrel.Http
             }
         }
 
-        private static void OutputAsciiBlock(string data, MemoryPoolBlock2 memoryBlock, ISocketOutput output)
-        {
-            var start = memoryBlock.Start;
-            var end = start + memoryBlock.Data.Count;
-            var array = memoryBlock.Array;
-            var current = memoryBlock.End;
-
-            foreach (var chr in data)
-            {
-                array[current] = (byte)chr;
-
-                current++;
-
-                if (current == end)
-                {
-                    output.Write(memoryBlock.Data, immediate: false);
-                    current = start;
-                }
-            }
-            memoryBlock.End = current;
-        }
-
-        private static void OutputAsciiBlock(byte[] data, MemoryPoolBlock2 memoryBlock, ISocketOutput output)
-        {
-            var offset = 0;
-            var remaining = data.Length;
-
-            var start = memoryBlock.Start;
-            var end = start + memoryBlock.Data.Count;
-            var array = memoryBlock.Array;
-            var current = memoryBlock.End;
-
-            while (remaining > 0)
-            {
-                var blockRemaining = end - current;
-                var copyAmount = blockRemaining >= remaining ? remaining : blockRemaining;
-                Buffer.BlockCopy(data, offset, array, current, copyAmount);
-
-                current += copyAmount;
-                remaining -= copyAmount;
-                offset += copyAmount;
-
-                if (current == end)
-                {
-                    output.Write(memoryBlock.Data, immediate: false);
-                    current = start;
-                }
-            }
-            memoryBlock.End = current;
-        }
-
-        private Task CreateResponseHeader(
+        private async Task CreateResponseHeader(
             byte[] statusBytes,
             bool appCompleted,
             bool immediate)
         {
             var memoryBlock = Memory2.Lease();
+            var begin = memoryBlock.GetIterator();
+            var end = begin;
             try
             {
-                var blockRemaining = memoryBlock.Data.Count;
-
-                OutputAsciiBlock(_httpVersion == HttpVersionType.Http1_1 ? _bytesHttpVersion1_1 : _bytesHttpVersion1_0, memoryBlock, SocketOutput);
-
-                OutputAsciiBlock(statusBytes, memoryBlock, SocketOutput);
-
-                if (_responseHeaders.HasDefaultDate)
+                if (_keepAlive)
                 {
-                    OutputAsciiBlock(_bytesDate, memoryBlock, SocketOutput);
-                    OutputAsciiBlock(DateHeaderValueManager.GetDateHeaderValueBytes(), memoryBlock, SocketOutput);
-                    OutputAsciiBlock(_bytesEndLine, memoryBlock, SocketOutput);
-                }
-
-                foreach (var header in _responseHeaders.AsOutputEnumerable())
-                {
-                    foreach (var value in header.Value)
+                    foreach (var connectionValue in _responseHeaders.HeaderConnection)
                     {
-                        OutputAsciiBlock(header.Key, memoryBlock, SocketOutput);
-                        OutputAsciiBlock(value, memoryBlock, SocketOutput);
-                        OutputAsciiBlock(_bytesEndLine, memoryBlock, SocketOutput);
-
-                        if (_responseHeaders.HasConnection && value.IndexOf("close", StringComparison.OrdinalIgnoreCase) != -1)
+                        if (connectionValue.IndexOf("close", StringComparison.OrdinalIgnoreCase) != -1)
                         {
                             _keepAlive = false;
                         }
                     }
-                }
-
-                if (_responseHeaders.HasDefaultServer)
-                {
-                    OutputAsciiBlock(_bytesServer, memoryBlock, SocketOutput);
                 }
 
                 if (_keepAlive && !_responseHeaders.HasTransferEncoding && !_responseHeaders.HasContentLength)
@@ -661,7 +594,7 @@ namespace Microsoft.AspNet.Server.Kestrel.Http
                         {
                             // Since the app has completed and we are only now generating
                             // the headers we can safely set the Content-Length to 0.
-                            OutputAsciiBlock(_bytesContentLengthZero, memoryBlock, SocketOutput);
+                            _responseHeaders.SetRawContentLength("0", _bytesContentLengthZero);
                         }
                     }
                     else
@@ -669,7 +602,7 @@ namespace Microsoft.AspNet.Server.Kestrel.Http
                         if (_httpVersion == HttpVersionType.Http1_1)
                         {
                             _autoChunk = true;
-                            OutputAsciiBlock(_bytesTransferEncodingChunked, memoryBlock, SocketOutput);
+                            _responseHeaders.SetRawTransferEncoding("chunked", _bytesTransferEncodingChunked);
                         }
                         else
                         {
@@ -680,22 +613,32 @@ namespace Microsoft.AspNet.Server.Kestrel.Http
 
                 if (_keepAlive == false && _responseHeaders.HasConnection == false && _httpVersion == HttpVersionType.Http1_1)
                 {
-                    OutputAsciiBlock(_bytesConnectionClose, memoryBlock, SocketOutput);
+                    _responseHeaders.SetRawConnection("close", _bytesConnectionClose);
                 }
                 else if (_keepAlive && _responseHeaders.HasConnection == false && _httpVersion == HttpVersionType.Http1_0)
                 {
-                    OutputAsciiBlock(_bytesConnectionKeepAlive, memoryBlock, SocketOutput);
-                }
-                else
-                {
-                    OutputAsciiBlock(_bytesEndLine, memoryBlock, SocketOutput);
+                    _responseHeaders.SetRawConnection("keep-alive", _bytesConnectionKeepAlive);
                 }
 
-                return SocketOutput.WriteAsync(
-                    (memoryBlock.Start == memoryBlock.End) ?
-                    default(ArraySegment<byte>) :
-                    new ArraySegment<byte>(memoryBlock.Array, memoryBlock.Start, memoryBlock.End - memoryBlock.Start),
-                    immediate);
+                end.CopyFrom(_httpVersion == HttpVersionType.Http1_1 ? _bytesHttpVersion1_1 : _bytesHttpVersion1_0);
+                end.CopyFrom(statusBytes);
+                _responseHeaders.CopyTo(ref end);
+                end.CopyFrom(_bytesEndHeaders, 0, _bytesEndHeaders.Length);
+
+                // TODO: change this to SocketOutput.ProduceStart/ProduceComplete once that change is made 
+                var scan = begin.Block;
+                while (scan != null)
+                {
+                    if (scan.Start != scan.End)
+                    {
+                        await SocketOutput.WriteAsync(
+                            new ArraySegment<byte>(scan.Array, scan.Start, scan.End - scan.Start),
+                            immediate);
+                    }
+                    var next = scan.Next;
+                    Memory2.Return(scan);
+                    scan = next;
+                }
             }
             finally
             {

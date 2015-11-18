@@ -10,7 +10,9 @@ namespace Microsoft.AspNet.Server.Kestrel.Http
 
     public partial class FrameRequestHeaders
     {
+        
         private long _bits = 0;
+
         
         private StringValues _CacheControl;
         private StringValues _Connection;
@@ -53,6 +55,9 @@ namespace Microsoft.AspNet.Server.Kestrel.Http
         private StringValues _TE;
         private StringValues _Translate;
         private StringValues _UserAgent;
+
+        
+
         
         public StringValues HeaderCacheControl
         {
@@ -63,10 +68,9 @@ namespace Microsoft.AspNet.Server.Kestrel.Http
             set
             {
                 _bits |= 1L;
-                _CacheControl = value;
+                _CacheControl = value; 
             }
         }
-
         public StringValues HeaderConnection
         {
             get
@@ -76,11 +80,9 @@ namespace Microsoft.AspNet.Server.Kestrel.Http
             set
             {
                 _bits |= 2L;
-                HasConnection = true;
-                _Connection = value;
+                _Connection = value; 
             }
         }
-
         public StringValues HeaderDate
         {
             get
@@ -90,10 +92,9 @@ namespace Microsoft.AspNet.Server.Kestrel.Http
             set
             {
                 _bits |= 4L;
-                _Date = value;
+                _Date = value; 
             }
         }
-
         public StringValues HeaderKeepAlive
         {
             get
@@ -103,10 +104,9 @@ namespace Microsoft.AspNet.Server.Kestrel.Http
             set
             {
                 _bits |= 8L;
-                _KeepAlive = value;
+                _KeepAlive = value; 
             }
         }
-
         public StringValues HeaderPragma
         {
             get
@@ -116,10 +116,9 @@ namespace Microsoft.AspNet.Server.Kestrel.Http
             set
             {
                 _bits |= 16L;
-                _Pragma = value;
+                _Pragma = value; 
             }
         }
-
         public StringValues HeaderTrailer
         {
             get
@@ -129,10 +128,9 @@ namespace Microsoft.AspNet.Server.Kestrel.Http
             set
             {
                 _bits |= 32L;
-                _Trailer = value;
+                _Trailer = value; 
             }
         }
-
         public StringValues HeaderTransferEncoding
         {
             get
@@ -142,11 +140,9 @@ namespace Microsoft.AspNet.Server.Kestrel.Http
             set
             {
                 _bits |= 64L;
-                HasTransferEncoding = true;
-                _TransferEncoding = value;
+                _TransferEncoding = value; 
             }
         }
-
         public StringValues HeaderUpgrade
         {
             get
@@ -156,10 +152,9 @@ namespace Microsoft.AspNet.Server.Kestrel.Http
             set
             {
                 _bits |= 128L;
-                _Upgrade = value;
+                _Upgrade = value; 
             }
         }
-
         public StringValues HeaderVia
         {
             get
@@ -169,10 +164,9 @@ namespace Microsoft.AspNet.Server.Kestrel.Http
             set
             {
                 _bits |= 256L;
-                _Via = value;
+                _Via = value; 
             }
         }
-
         public StringValues HeaderWarning
         {
             get
@@ -182,10 +176,9 @@ namespace Microsoft.AspNet.Server.Kestrel.Http
             set
             {
                 _bits |= 512L;
-                _Warning = value;
+                _Warning = value; 
             }
         }
-
         public StringValues HeaderAllow
         {
             get
@@ -195,10 +188,9 @@ namespace Microsoft.AspNet.Server.Kestrel.Http
             set
             {
                 _bits |= 1024L;
-                _Allow = value;
+                _Allow = value; 
             }
         }
-
         public StringValues HeaderContentLength
         {
             get
@@ -208,11 +200,9 @@ namespace Microsoft.AspNet.Server.Kestrel.Http
             set
             {
                 _bits |= 2048L;
-                HasContentLength = true;
-                _ContentLength = value;
+                _ContentLength = value; 
             }
         }
-
         public StringValues HeaderContentType
         {
             get
@@ -222,10 +212,9 @@ namespace Microsoft.AspNet.Server.Kestrel.Http
             set
             {
                 _bits |= 4096L;
-                _ContentType = value;
+                _ContentType = value; 
             }
         }
-
         public StringValues HeaderContentEncoding
         {
             get
@@ -235,10 +224,9 @@ namespace Microsoft.AspNet.Server.Kestrel.Http
             set
             {
                 _bits |= 8192L;
-                _ContentEncoding = value;
+                _ContentEncoding = value; 
             }
         }
-
         public StringValues HeaderContentLanguage
         {
             get
@@ -248,10 +236,9 @@ namespace Microsoft.AspNet.Server.Kestrel.Http
             set
             {
                 _bits |= 16384L;
-                _ContentLanguage = value;
+                _ContentLanguage = value; 
             }
         }
-
         public StringValues HeaderContentLocation
         {
             get
@@ -261,10 +248,9 @@ namespace Microsoft.AspNet.Server.Kestrel.Http
             set
             {
                 _bits |= 32768L;
-                _ContentLocation = value;
+                _ContentLocation = value; 
             }
         }
-
         public StringValues HeaderContentMD5
         {
             get
@@ -274,10 +260,9 @@ namespace Microsoft.AspNet.Server.Kestrel.Http
             set
             {
                 _bits |= 65536L;
-                _ContentMD5 = value;
+                _ContentMD5 = value; 
             }
         }
-
         public StringValues HeaderContentRange
         {
             get
@@ -287,10 +272,9 @@ namespace Microsoft.AspNet.Server.Kestrel.Http
             set
             {
                 _bits |= 131072L;
-                _ContentRange = value;
+                _ContentRange = value; 
             }
         }
-
         public StringValues HeaderExpires
         {
             get
@@ -300,10 +284,9 @@ namespace Microsoft.AspNet.Server.Kestrel.Http
             set
             {
                 _bits |= 262144L;
-                _Expires = value;
+                _Expires = value; 
             }
         }
-
         public StringValues HeaderLastModified
         {
             get
@@ -313,10 +296,9 @@ namespace Microsoft.AspNet.Server.Kestrel.Http
             set
             {
                 _bits |= 524288L;
-                _LastModified = value;
+                _LastModified = value; 
             }
         }
-
         public StringValues HeaderAccept
         {
             get
@@ -326,10 +308,9 @@ namespace Microsoft.AspNet.Server.Kestrel.Http
             set
             {
                 _bits |= 1048576L;
-                _Accept = value;
+                _Accept = value; 
             }
         }
-
         public StringValues HeaderAcceptCharset
         {
             get
@@ -339,10 +320,9 @@ namespace Microsoft.AspNet.Server.Kestrel.Http
             set
             {
                 _bits |= 2097152L;
-                _AcceptCharset = value;
+                _AcceptCharset = value; 
             }
         }
-
         public StringValues HeaderAcceptEncoding
         {
             get
@@ -352,10 +332,9 @@ namespace Microsoft.AspNet.Server.Kestrel.Http
             set
             {
                 _bits |= 4194304L;
-                _AcceptEncoding = value;
+                _AcceptEncoding = value; 
             }
         }
-
         public StringValues HeaderAcceptLanguage
         {
             get
@@ -365,10 +344,9 @@ namespace Microsoft.AspNet.Server.Kestrel.Http
             set
             {
                 _bits |= 8388608L;
-                _AcceptLanguage = value;
+                _AcceptLanguage = value; 
             }
         }
-
         public StringValues HeaderAuthorization
         {
             get
@@ -378,10 +356,9 @@ namespace Microsoft.AspNet.Server.Kestrel.Http
             set
             {
                 _bits |= 16777216L;
-                _Authorization = value;
+                _Authorization = value; 
             }
         }
-
         public StringValues HeaderCookie
         {
             get
@@ -391,10 +368,9 @@ namespace Microsoft.AspNet.Server.Kestrel.Http
             set
             {
                 _bits |= 33554432L;
-                _Cookie = value;
+                _Cookie = value; 
             }
         }
-
         public StringValues HeaderExpect
         {
             get
@@ -404,10 +380,9 @@ namespace Microsoft.AspNet.Server.Kestrel.Http
             set
             {
                 _bits |= 67108864L;
-                _Expect = value;
+                _Expect = value; 
             }
         }
-
         public StringValues HeaderFrom
         {
             get
@@ -417,10 +392,9 @@ namespace Microsoft.AspNet.Server.Kestrel.Http
             set
             {
                 _bits |= 134217728L;
-                _From = value;
+                _From = value; 
             }
         }
-
         public StringValues HeaderHost
         {
             get
@@ -430,10 +404,9 @@ namespace Microsoft.AspNet.Server.Kestrel.Http
             set
             {
                 _bits |= 268435456L;
-                _Host = value;
+                _Host = value; 
             }
         }
-
         public StringValues HeaderIfMatch
         {
             get
@@ -443,10 +416,9 @@ namespace Microsoft.AspNet.Server.Kestrel.Http
             set
             {
                 _bits |= 536870912L;
-                _IfMatch = value;
+                _IfMatch = value; 
             }
         }
-
         public StringValues HeaderIfModifiedSince
         {
             get
@@ -456,10 +428,9 @@ namespace Microsoft.AspNet.Server.Kestrel.Http
             set
             {
                 _bits |= 1073741824L;
-                _IfModifiedSince = value;
+                _IfModifiedSince = value; 
             }
         }
-
         public StringValues HeaderIfNoneMatch
         {
             get
@@ -469,10 +440,9 @@ namespace Microsoft.AspNet.Server.Kestrel.Http
             set
             {
                 _bits |= 2147483648L;
-                _IfNoneMatch = value;
+                _IfNoneMatch = value; 
             }
         }
-
         public StringValues HeaderIfRange
         {
             get
@@ -482,10 +452,9 @@ namespace Microsoft.AspNet.Server.Kestrel.Http
             set
             {
                 _bits |= 4294967296L;
-                _IfRange = value;
+                _IfRange = value; 
             }
         }
-
         public StringValues HeaderIfUnmodifiedSince
         {
             get
@@ -495,10 +464,9 @@ namespace Microsoft.AspNet.Server.Kestrel.Http
             set
             {
                 _bits |= 8589934592L;
-                _IfUnmodifiedSince = value;
+                _IfUnmodifiedSince = value; 
             }
         }
-
         public StringValues HeaderMaxForwards
         {
             get
@@ -508,10 +476,9 @@ namespace Microsoft.AspNet.Server.Kestrel.Http
             set
             {
                 _bits |= 17179869184L;
-                _MaxForwards = value;
+                _MaxForwards = value; 
             }
         }
-
         public StringValues HeaderProxyAuthorization
         {
             get
@@ -521,10 +488,9 @@ namespace Microsoft.AspNet.Server.Kestrel.Http
             set
             {
                 _bits |= 34359738368L;
-                _ProxyAuthorization = value;
+                _ProxyAuthorization = value; 
             }
         }
-
         public StringValues HeaderReferer
         {
             get
@@ -534,10 +500,9 @@ namespace Microsoft.AspNet.Server.Kestrel.Http
             set
             {
                 _bits |= 68719476736L;
-                _Referer = value;
+                _Referer = value; 
             }
         }
-
         public StringValues HeaderRange
         {
             get
@@ -547,10 +512,9 @@ namespace Microsoft.AspNet.Server.Kestrel.Http
             set
             {
                 _bits |= 137438953472L;
-                _Range = value;
+                _Range = value; 
             }
         }
-
         public StringValues HeaderTE
         {
             get
@@ -560,10 +524,9 @@ namespace Microsoft.AspNet.Server.Kestrel.Http
             set
             {
                 _bits |= 274877906944L;
-                _TE = value;
+                _TE = value; 
             }
         }
-
         public StringValues HeaderTranslate
         {
             get
@@ -573,10 +536,9 @@ namespace Microsoft.AspNet.Server.Kestrel.Http
             set
             {
                 _bits |= 549755813888L;
-                _Translate = value;
+                _Translate = value; 
             }
         }
-
         public StringValues HeaderUserAgent
         {
             get
@@ -586,14 +548,15 @@ namespace Microsoft.AspNet.Server.Kestrel.Http
             set
             {
                 _bits |= 1099511627776L;
-                _UserAgent = value;
+                _UserAgent = value; 
             }
         }
 
+        
+
         protected override int GetCountFast()
         {
-            return BitCount(_bits)  
-                + (MaybeUnknown?.Count ?? 0);
+            return BitCount(_bits) + (MaybeUnknown?.Count ?? 0);
         }
 
         protected override StringValues GetValueFast(string key)
@@ -1866,7 +1829,6 @@ namespace Microsoft.AspNet.Server.Kestrel.Http
                         {
                             _bits |= 2L;
                             _Connection = value;
-                            HasConnection = true;
                             return;
                         }
                     
@@ -1988,7 +1950,6 @@ namespace Microsoft.AspNet.Server.Kestrel.Http
                         {
                             _bits |= 64L;
                             _TransferEncoding = value;
-                            HasTransferEncoding = true;
                             return;
                         }
                     
@@ -2036,7 +1997,6 @@ namespace Microsoft.AspNet.Server.Kestrel.Http
                         {
                             _bits |= 2048L;
                             _ContentLength = value;
-                            HasContentLength = true;
                             return;
                         }
                     
@@ -2255,7 +2215,6 @@ namespace Microsoft.AspNet.Server.Kestrel.Http
                             }
                             _bits |= 2L;
                             _Connection = value;
-                            HasConnection = true;
                             return;
                         }
                     
@@ -2437,7 +2396,6 @@ namespace Microsoft.AspNet.Server.Kestrel.Http
                             }
                             _bits |= 64L;
                             _TransferEncoding = value;
-                            HasTransferEncoding = true;
                             return;
                         }
                     
@@ -2505,7 +2463,6 @@ namespace Microsoft.AspNet.Server.Kestrel.Http
                             }
                             _bits |= 2048L;
                             _ContentLength = value;
-                            HasContentLength = true;
                             return;
                         }
                     
@@ -2797,7 +2754,6 @@ namespace Microsoft.AspNet.Server.Kestrel.Http
                             {
                                 _bits &= ~2L;
                                 _Connection = StringValues.Empty;
-                                HasConnection = false;
                                 return true;
                             }
                             else
@@ -3024,7 +2980,6 @@ namespace Microsoft.AspNet.Server.Kestrel.Http
                             {
                                 _bits &= ~64L;
                                 _TransferEncoding = StringValues.Empty;
-                                HasTransferEncoding = false;
                                 return true;
                             }
                             else
@@ -3107,7 +3062,6 @@ namespace Microsoft.AspNet.Server.Kestrel.Http
                             {
                                 _bits &= ~2048L;
                                 _ContentLength = StringValues.Empty;
-                                HasContentLength = false;
                                 return true;
                             }
                             else
@@ -3408,10 +3362,8 @@ namespace Microsoft.AspNet.Server.Kestrel.Http
             _TE = StringValues.Empty;
             _Translate = StringValues.Empty;
             _UserAgent = StringValues.Empty;
+            
             MaybeUnknown?.Clear();
-            HasConnection = false;
-            HasTransferEncoding = false;
-            HasContentLength = false;
         }
         
         protected override void CopyToFast(KeyValuePair<string, StringValues>[] array, int arrayIndex)
@@ -3876,6 +3828,8 @@ namespace Microsoft.AspNet.Server.Kestrel.Http
             ((ICollection<KeyValuePair<string, StringValues>>)MaybeUnknown)?.CopyTo(array, arrayIndex);
         }
 
+        
+
         public unsafe void Append(byte[] keyBytes, int keyOffset, int keyLength, string value)
         {
             fixed(byte* ptr = keyBytes) { var pUB = ptr + keyOffset; var pUL = (ulong*)pUB; var pUI = (uint*)pUB; var pUS = (ushort*)pUB;
@@ -3966,7 +3920,6 @@ namespace Microsoft.AspNet.Server.Kestrel.Http
                             else
                             {
                                 _bits |= 2L;
-                                HasConnection = true;
                                 _Connection = new StringValues(value);
                             }
                             return;
@@ -4193,7 +4146,6 @@ namespace Microsoft.AspNet.Server.Kestrel.Http
                             else
                             {
                                 _bits |= 64L;
-                                HasTransferEncoding = true;
                                 _TransferEncoding = new StringValues(value);
                             }
                             return;
@@ -4276,7 +4228,6 @@ namespace Microsoft.AspNet.Server.Kestrel.Http
                             else
                             {
                                 _bits |= 2048L;
-                                HasContentLength = true;
                                 _ContentLength = new StringValues(value);
                             }
                             return;
@@ -5004,42 +4955,17 @@ namespace Microsoft.AspNet.Server.Kestrel.Http
                     return true;
             }
         }
-
     }
 
     public partial class FrameResponseHeaders
     {
-        private static byte[] _bytesCacheControl = Encoding.ASCII.GetBytes("Cache-Control: ");
-        private static byte[] _bytesConnection = Encoding.ASCII.GetBytes("Connection: ");
-        private static byte[] _bytesDate = Encoding.ASCII.GetBytes("Date: ");
-        private static byte[] _bytesKeepAlive = Encoding.ASCII.GetBytes("Keep-Alive: ");
-        private static byte[] _bytesPragma = Encoding.ASCII.GetBytes("Pragma: ");
-        private static byte[] _bytesTrailer = Encoding.ASCII.GetBytes("Trailer: ");
-        private static byte[] _bytesTransferEncoding = Encoding.ASCII.GetBytes("Transfer-Encoding: ");
-        private static byte[] _bytesUpgrade = Encoding.ASCII.GetBytes("Upgrade: ");
-        private static byte[] _bytesVia = Encoding.ASCII.GetBytes("Via: ");
-        private static byte[] _bytesWarning = Encoding.ASCII.GetBytes("Warning: ");
-        private static byte[] _bytesAllow = Encoding.ASCII.GetBytes("Allow: ");
-        private static byte[] _bytesContentLength = Encoding.ASCII.GetBytes("Content-Length: ");
-        private static byte[] _bytesContentType = Encoding.ASCII.GetBytes("Content-Type: ");
-        private static byte[] _bytesContentEncoding = Encoding.ASCII.GetBytes("Content-Encoding: ");
-        private static byte[] _bytesContentLanguage = Encoding.ASCII.GetBytes("Content-Language: ");
-        private static byte[] _bytesContentLocation = Encoding.ASCII.GetBytes("Content-Location: ");
-        private static byte[] _bytesContentMD5 = Encoding.ASCII.GetBytes("Content-MD5: ");
-        private static byte[] _bytesContentRange = Encoding.ASCII.GetBytes("Content-Range: ");
-        private static byte[] _bytesExpires = Encoding.ASCII.GetBytes("Expires: ");
-        private static byte[] _bytesLastModified = Encoding.ASCII.GetBytes("Last-Modified: ");
-        private static byte[] _bytesAcceptRanges = Encoding.ASCII.GetBytes("Accept-Ranges: ");
-        private static byte[] _bytesAge = Encoding.ASCII.GetBytes("Age: ");
-        private static byte[] _bytesETag = Encoding.ASCII.GetBytes("ETag: ");
-        private static byte[] _bytesLocation = Encoding.ASCII.GetBytes("Location: ");
-        private static byte[] _bytesProxyAutheticate = Encoding.ASCII.GetBytes("Proxy-Autheticate: ");
-        private static byte[] _bytesRetryAfter = Encoding.ASCII.GetBytes("Retry-After: ");
-        private static byte[] _bytesServer = Encoding.ASCII.GetBytes("Server: ");
-        private static byte[] _bytesSetCookie = Encoding.ASCII.GetBytes("Set-Cookie: ");
-        private static byte[] _bytesVary = Encoding.ASCII.GetBytes("Vary: ");
-        private static byte[] _bytesWWWAuthenticate = Encoding.ASCII.GetBytes("WWW-Authenticate: ");
+        private static byte[] _headerBytes = new byte[]
+        {
+            13,10,67,97,99,104,101,45,67,111,110,116,114,111,108,58,32,13,10,67,111,110,110,101,99,116,105,111,110,58,32,13,10,68,97,116,101,58,32,13,10,75,101,101,112,45,65,108,105,118,101,58,32,13,10,80,114,97,103,109,97,58,32,13,10,84,114,97,105,108,101,114,58,32,13,10,84,114,97,110,115,102,101,114,45,69,110,99,111,100,105,110,103,58,32,13,10,85,112,103,114,97,100,101,58,32,13,10,86,105,97,58,32,13,10,87,97,114,110,105,110,103,58,32,13,10,65,108,108,111,119,58,32,13,10,67,111,110,116,101,110,116,45,76,101,110,103,116,104,58,32,13,10,67,111,110,116,101,110,116,45,84,121,112,101,58,32,13,10,67,111,110,116,101,110,116,45,69,110,99,111,100,105,110,103,58,32,13,10,67,111,110,116,101,110,116,45,76,97,110,103,117,97,103,101,58,32,13,10,67,111,110,116,101,110,116,45,76,111,99,97,116,105,111,110,58,32,13,10,67,111,110,116,101,110,116,45,77,68,53,58,32,13,10,67,111,110,116,101,110,116,45,82,97,110,103,101,58,32,13,10,69,120,112,105,114,101,115,58,32,13,10,76,97,115,116,45,77,111,100,105,102,105,101,100,58,32,13,10,65,99,99,101,112,116,45,82,97,110,103,101,115,58,32,13,10,65,103,101,58,32,13,10,69,84,97,103,58,32,13,10,76,111,99,97,116,105,111,110,58,32,13,10,80,114,111,120,121,45,65,117,116,104,101,116,105,99,97,116,101,58,32,13,10,82,101,116,114,121,45,65,102,116,101,114,58,32,13,10,83,101,114,118,101,114,58,32,13,10,83,101,116,45,67,111,111,107,105,101,58,32,13,10,86,97,114,121,58,32,13,10,87,87,87,45,65,117,116,104,101,110,116,105,99,97,116,101,58,32,
+        };
+        
         private long _bits = 0;
+
         
         private StringValues _CacheControl;
         private StringValues _Connection;
@@ -5071,26 +4997,14 @@ namespace Microsoft.AspNet.Server.Kestrel.Http
         private StringValues _SetCookie;
         private StringValues _Vary;
         private StringValues _WWWAuthenticate;
-        private bool _hasDefaultServer;
-        private bool _hasDefaultDate;
 
-        public bool HasDefaultServer { 
-            get { return _hasDefaultServer; }
-            set 
-            {
-                _hasDefaultServer = value;
-                _bits &= ~67108864L;
-            }
-        }
+        
+        private byte[] _rawConnection;
+        private byte[] _rawDate;
+        private byte[] _rawTransferEncoding;
+        private byte[] _rawContentLength;
+        private byte[] _rawServer;
 
-        public bool HasDefaultDate { 
-            get { return _hasDefaultDate; }
-            set 
-            {
-                _hasDefaultDate = value;
-                _bits &= ~4L;
-            }
-        }
         
         public StringValues HeaderCacheControl
         {
@@ -5101,10 +5015,9 @@ namespace Microsoft.AspNet.Server.Kestrel.Http
             set
             {
                 _bits |= 1L;
-                _CacheControl = value;
+                _CacheControl = value; 
             }
         }
-
         public StringValues HeaderConnection
         {
             get
@@ -5114,11 +5027,10 @@ namespace Microsoft.AspNet.Server.Kestrel.Http
             set
             {
                 _bits |= 2L;
-                HasConnection = true;
-                _Connection = value;
+                _Connection = value; 
+                _rawConnection = null;
             }
         }
-
         public StringValues HeaderDate
         {
             get
@@ -5128,11 +5040,10 @@ namespace Microsoft.AspNet.Server.Kestrel.Http
             set
             {
                 _bits |= 4L;
-                HasDefaultDate = false;
-                _Date = value;
+                _Date = value; 
+                _rawDate = null;
             }
         }
-
         public StringValues HeaderKeepAlive
         {
             get
@@ -5142,10 +5053,9 @@ namespace Microsoft.AspNet.Server.Kestrel.Http
             set
             {
                 _bits |= 8L;
-                _KeepAlive = value;
+                _KeepAlive = value; 
             }
         }
-
         public StringValues HeaderPragma
         {
             get
@@ -5155,10 +5065,9 @@ namespace Microsoft.AspNet.Server.Kestrel.Http
             set
             {
                 _bits |= 16L;
-                _Pragma = value;
+                _Pragma = value; 
             }
         }
-
         public StringValues HeaderTrailer
         {
             get
@@ -5168,10 +5077,9 @@ namespace Microsoft.AspNet.Server.Kestrel.Http
             set
             {
                 _bits |= 32L;
-                _Trailer = value;
+                _Trailer = value; 
             }
         }
-
         public StringValues HeaderTransferEncoding
         {
             get
@@ -5181,11 +5089,10 @@ namespace Microsoft.AspNet.Server.Kestrel.Http
             set
             {
                 _bits |= 64L;
-                HasTransferEncoding = true;
-                _TransferEncoding = value;
+                _TransferEncoding = value; 
+                _rawTransferEncoding = null;
             }
         }
-
         public StringValues HeaderUpgrade
         {
             get
@@ -5195,10 +5102,9 @@ namespace Microsoft.AspNet.Server.Kestrel.Http
             set
             {
                 _bits |= 128L;
-                _Upgrade = value;
+                _Upgrade = value; 
             }
         }
-
         public StringValues HeaderVia
         {
             get
@@ -5208,10 +5114,9 @@ namespace Microsoft.AspNet.Server.Kestrel.Http
             set
             {
                 _bits |= 256L;
-                _Via = value;
+                _Via = value; 
             }
         }
-
         public StringValues HeaderWarning
         {
             get
@@ -5221,10 +5126,9 @@ namespace Microsoft.AspNet.Server.Kestrel.Http
             set
             {
                 _bits |= 512L;
-                _Warning = value;
+                _Warning = value; 
             }
         }
-
         public StringValues HeaderAllow
         {
             get
@@ -5234,10 +5138,9 @@ namespace Microsoft.AspNet.Server.Kestrel.Http
             set
             {
                 _bits |= 1024L;
-                _Allow = value;
+                _Allow = value; 
             }
         }
-
         public StringValues HeaderContentLength
         {
             get
@@ -5247,11 +5150,10 @@ namespace Microsoft.AspNet.Server.Kestrel.Http
             set
             {
                 _bits |= 2048L;
-                HasContentLength = true;
-                _ContentLength = value;
+                _ContentLength = value; 
+                _rawContentLength = null;
             }
         }
-
         public StringValues HeaderContentType
         {
             get
@@ -5261,10 +5163,9 @@ namespace Microsoft.AspNet.Server.Kestrel.Http
             set
             {
                 _bits |= 4096L;
-                _ContentType = value;
+                _ContentType = value; 
             }
         }
-
         public StringValues HeaderContentEncoding
         {
             get
@@ -5274,10 +5175,9 @@ namespace Microsoft.AspNet.Server.Kestrel.Http
             set
             {
                 _bits |= 8192L;
-                _ContentEncoding = value;
+                _ContentEncoding = value; 
             }
         }
-
         public StringValues HeaderContentLanguage
         {
             get
@@ -5287,10 +5187,9 @@ namespace Microsoft.AspNet.Server.Kestrel.Http
             set
             {
                 _bits |= 16384L;
-                _ContentLanguage = value;
+                _ContentLanguage = value; 
             }
         }
-
         public StringValues HeaderContentLocation
         {
             get
@@ -5300,10 +5199,9 @@ namespace Microsoft.AspNet.Server.Kestrel.Http
             set
             {
                 _bits |= 32768L;
-                _ContentLocation = value;
+                _ContentLocation = value; 
             }
         }
-
         public StringValues HeaderContentMD5
         {
             get
@@ -5313,10 +5211,9 @@ namespace Microsoft.AspNet.Server.Kestrel.Http
             set
             {
                 _bits |= 65536L;
-                _ContentMD5 = value;
+                _ContentMD5 = value; 
             }
         }
-
         public StringValues HeaderContentRange
         {
             get
@@ -5326,10 +5223,9 @@ namespace Microsoft.AspNet.Server.Kestrel.Http
             set
             {
                 _bits |= 131072L;
-                _ContentRange = value;
+                _ContentRange = value; 
             }
         }
-
         public StringValues HeaderExpires
         {
             get
@@ -5339,10 +5235,9 @@ namespace Microsoft.AspNet.Server.Kestrel.Http
             set
             {
                 _bits |= 262144L;
-                _Expires = value;
+                _Expires = value; 
             }
         }
-
         public StringValues HeaderLastModified
         {
             get
@@ -5352,10 +5247,9 @@ namespace Microsoft.AspNet.Server.Kestrel.Http
             set
             {
                 _bits |= 524288L;
-                _LastModified = value;
+                _LastModified = value; 
             }
         }
-
         public StringValues HeaderAcceptRanges
         {
             get
@@ -5365,10 +5259,9 @@ namespace Microsoft.AspNet.Server.Kestrel.Http
             set
             {
                 _bits |= 1048576L;
-                _AcceptRanges = value;
+                _AcceptRanges = value; 
             }
         }
-
         public StringValues HeaderAge
         {
             get
@@ -5378,10 +5271,9 @@ namespace Microsoft.AspNet.Server.Kestrel.Http
             set
             {
                 _bits |= 2097152L;
-                _Age = value;
+                _Age = value; 
             }
         }
-
         public StringValues HeaderETag
         {
             get
@@ -5391,10 +5283,9 @@ namespace Microsoft.AspNet.Server.Kestrel.Http
             set
             {
                 _bits |= 4194304L;
-                _ETag = value;
+                _ETag = value; 
             }
         }
-
         public StringValues HeaderLocation
         {
             get
@@ -5404,10 +5295,9 @@ namespace Microsoft.AspNet.Server.Kestrel.Http
             set
             {
                 _bits |= 8388608L;
-                _Location = value;
+                _Location = value; 
             }
         }
-
         public StringValues HeaderProxyAutheticate
         {
             get
@@ -5417,10 +5307,9 @@ namespace Microsoft.AspNet.Server.Kestrel.Http
             set
             {
                 _bits |= 16777216L;
-                _ProxyAutheticate = value;
+                _ProxyAutheticate = value; 
             }
         }
-
         public StringValues HeaderRetryAfter
         {
             get
@@ -5430,10 +5319,9 @@ namespace Microsoft.AspNet.Server.Kestrel.Http
             set
             {
                 _bits |= 33554432L;
-                _RetryAfter = value;
+                _RetryAfter = value; 
             }
         }
-
         public StringValues HeaderServer
         {
             get
@@ -5443,11 +5331,10 @@ namespace Microsoft.AspNet.Server.Kestrel.Http
             set
             {
                 _bits |= 67108864L;
-                HasDefaultServer = false;
-                _Server = value;
+                _Server = value; 
+                _rawServer = null;
             }
         }
-
         public StringValues HeaderSetCookie
         {
             get
@@ -5457,10 +5344,9 @@ namespace Microsoft.AspNet.Server.Kestrel.Http
             set
             {
                 _bits |= 134217728L;
-                _SetCookie = value;
+                _SetCookie = value; 
             }
         }
-
         public StringValues HeaderVary
         {
             get
@@ -5470,10 +5356,9 @@ namespace Microsoft.AspNet.Server.Kestrel.Http
             set
             {
                 _bits |= 268435456L;
-                _Vary = value;
+                _Vary = value; 
             }
         }
-
         public StringValues HeaderWWWAuthenticate
         {
             get
@@ -5483,15 +5368,45 @@ namespace Microsoft.AspNet.Server.Kestrel.Http
             set
             {
                 _bits |= 536870912L;
-                _WWWAuthenticate = value;
+                _WWWAuthenticate = value; 
             }
+        }
+
+        
+        public void SetRawConnection(StringValues value, byte[] raw)
+        {
+            _bits |= 2L;
+            _Connection = value; 
+            _rawConnection = null;
+        }
+        public void SetRawDate(StringValues value, byte[] raw)
+        {
+            _bits |= 4L;
+            _Date = value; 
+            _rawDate = null;
+        }
+        public void SetRawTransferEncoding(StringValues value, byte[] raw)
+        {
+            _bits |= 64L;
+            _TransferEncoding = value; 
+            _rawTransferEncoding = null;
+        }
+        public void SetRawContentLength(StringValues value, byte[] raw)
+        {
+            _bits |= 2048L;
+            _ContentLength = value; 
+            _rawContentLength = null;
+        }
+        public void SetRawServer(StringValues value, byte[] raw)
+        {
+            _bits |= 67108864L;
+            _Server = value; 
+            _rawServer = null;
         }
 
         protected override int GetCountFast()
         {
-            return BitCount(_bits) + (HasDefaultDate ? 1 : 0)
-                + (HasDefaultServer ? 1 : 0) 
-                + (MaybeUnknown?.Count ?? 0);
+            return BitCount(_bits) + (MaybeUnknown?.Count ?? 0);
         }
 
         protected override StringValues GetValueFast(string key)
@@ -6031,11 +5946,6 @@ namespace Microsoft.AspNet.Server.Kestrel.Http
                     {
                         if ("Date".Equals(key, StringComparison.OrdinalIgnoreCase)) 
                         {
-                            if (HasDefaultDate)
-                            {
-                                value = DateTime.UtcNow.ToString(Constants.RFC1123DateFormat);
-                                return true;
-                            }
                             if (((_bits & 4L) != 0))
                             {
                                 value = _Date;
@@ -6096,11 +6006,6 @@ namespace Microsoft.AspNet.Server.Kestrel.Http
                     
                         if ("Server".Equals(key, StringComparison.OrdinalIgnoreCase)) 
                         {
-                            if (HasDefaultServer)
-                            {
-                                value = "Kestrel";
-                                return true;
-                            }
                             if (((_bits & 67108864L) != 0))
                             {
                                 value = _Server;
@@ -6449,7 +6354,7 @@ namespace Microsoft.AspNet.Server.Kestrel.Http
                         {
                             _bits |= 2L;
                             _Connection = value;
-                            HasConnection = true;
+                            _rawConnection = null;
                             return;
                         }
                     
@@ -6475,7 +6380,7 @@ namespace Microsoft.AspNet.Server.Kestrel.Http
                         {
                             _bits |= 4L;
                             _Date = value;
-                            HasDefaultDate = false;
+                            _rawDate = null;
                             return;
                         }
                     
@@ -6508,7 +6413,7 @@ namespace Microsoft.AspNet.Server.Kestrel.Http
                         {
                             _bits |= 67108864L;
                             _Server = value;
-                            HasDefaultServer = false;
+                            _rawServer = null;
                             return;
                         }
                     }
@@ -6552,7 +6457,7 @@ namespace Microsoft.AspNet.Server.Kestrel.Http
                         {
                             _bits |= 64L;
                             _TransferEncoding = value;
-                            HasTransferEncoding = true;
+                            _rawTransferEncoding = null;
                             return;
                         }
                     
@@ -6600,7 +6505,7 @@ namespace Microsoft.AspNet.Server.Kestrel.Http
                         {
                             _bits |= 2048L;
                             _ContentLength = value;
-                            HasContentLength = true;
+                            _rawContentLength = null;
                             return;
                         }
                     }
@@ -6743,7 +6648,7 @@ namespace Microsoft.AspNet.Server.Kestrel.Http
                             }
                             _bits |= 2L;
                             _Connection = value;
-                            HasConnection = true;
+                            _rawConnection = null;
                             return;
                         }
                     
@@ -6781,7 +6686,7 @@ namespace Microsoft.AspNet.Server.Kestrel.Http
                             }
                             _bits |= 4L;
                             _Date = value;
-                            HasDefaultDate = false;
+                            _rawDate = null;
                             return;
                         }
                     
@@ -6830,7 +6735,7 @@ namespace Microsoft.AspNet.Server.Kestrel.Http
                             }
                             _bits |= 67108864L;
                             _Server = value;
-                            HasDefaultServer = false;
+                            _rawServer = null;
                             return;
                         }
                     }
@@ -6894,7 +6799,7 @@ namespace Microsoft.AspNet.Server.Kestrel.Http
                             }
                             _bits |= 64L;
                             _TransferEncoding = value;
-                            HasTransferEncoding = true;
+                            _rawTransferEncoding = null;
                             return;
                         }
                     
@@ -6962,7 +6867,7 @@ namespace Microsoft.AspNet.Server.Kestrel.Http
                             }
                             _bits |= 2048L;
                             _ContentLength = value;
-                            HasContentLength = true;
+                            _rawContentLength = null;
                             return;
                         }
                     }
@@ -7147,7 +7052,7 @@ namespace Microsoft.AspNet.Server.Kestrel.Http
                             {
                                 _bits &= ~2L;
                                 _Connection = StringValues.Empty;
-                                HasConnection = false;
+                                _rawConnection = null;
                                 return true;
                             }
                             else
@@ -7194,7 +7099,7 @@ namespace Microsoft.AspNet.Server.Kestrel.Http
                             {
                                 _bits &= ~4L;
                                 _Date = StringValues.Empty;
-                                HasDefaultDate = false;
+                                _rawDate = null;
                                 return true;
                             }
                             else
@@ -7255,7 +7160,7 @@ namespace Microsoft.AspNet.Server.Kestrel.Http
                             {
                                 _bits &= ~67108864L;
                                 _Server = StringValues.Empty;
-                                HasDefaultServer = false;
+                                _rawServer = null;
                                 return true;
                             }
                             else
@@ -7334,7 +7239,7 @@ namespace Microsoft.AspNet.Server.Kestrel.Http
                             {
                                 _bits &= ~64L;
                                 _TransferEncoding = StringValues.Empty;
-                                HasTransferEncoding = false;
+                                _rawTransferEncoding = null;
                                 return true;
                             }
                             else
@@ -7417,7 +7322,7 @@ namespace Microsoft.AspNet.Server.Kestrel.Http
                             {
                                 _bits &= ~2048L;
                                 _ContentLength = StringValues.Empty;
-                                HasContentLength = false;
+                                _rawContentLength = null;
                                 return true;
                             }
                             else
@@ -7593,12 +7498,13 @@ namespace Microsoft.AspNet.Server.Kestrel.Http
             _SetCookie = StringValues.Empty;
             _Vary = StringValues.Empty;
             _WWWAuthenticate = StringValues.Empty;
+            
+            _rawConnection = null;
+            _rawDate = null;
+            _rawTransferEncoding = null;
+            _rawContentLength = null;
+            _rawServer = null;
             MaybeUnknown?.Clear();
-            HasConnection = false;
-            HasTransferEncoding = false;
-            HasContentLength = false;
-            HasDefaultServer = false;
-            HasDefaultDate = false;
         }
         
         protected override void CopyToFast(KeyValuePair<string, StringValues>[] array, int arrayIndex)
@@ -7942,6 +7848,302 @@ namespace Microsoft.AspNet.Server.Kestrel.Http
             ((ICollection<KeyValuePair<string, StringValues>>)MaybeUnknown)?.CopyTo(array, arrayIndex);
         }
 
+        
+        protected void CopyToFast(ref MemoryPoolIterator2 output)
+        {
+            
+                if (((_bits & 1L) != 0)) 
+                { 
+                    foreach(var value in _CacheControl)
+                    {
+                        output.CopyFrom(_headerBytes, 0, 17);
+                        output.CopyFrom(value);
+                    }
+                }
+            
+                if (((_bits & 2L) != 0)) 
+                { 
+                    if (_rawConnection != null) 
+                    {
+                        output.CopyFrom(_rawConnection, 0, _rawConnection.Length);
+                    } else 
+                    foreach(var value in _Connection)
+                    {
+                        output.CopyFrom(_headerBytes, 17, 14);
+                        output.CopyFrom(value);
+                    }
+                }
+            
+                if (((_bits & 4L) != 0)) 
+                { 
+                    if (_rawDate != null) 
+                    {
+                        output.CopyFrom(_rawDate, 0, _rawDate.Length);
+                    } else 
+                    foreach(var value in _Date)
+                    {
+                        output.CopyFrom(_headerBytes, 31, 8);
+                        output.CopyFrom(value);
+                    }
+                }
+            
+                if (((_bits & 8L) != 0)) 
+                { 
+                    foreach(var value in _KeepAlive)
+                    {
+                        output.CopyFrom(_headerBytes, 39, 14);
+                        output.CopyFrom(value);
+                    }
+                }
+            
+                if (((_bits & 16L) != 0)) 
+                { 
+                    foreach(var value in _Pragma)
+                    {
+                        output.CopyFrom(_headerBytes, 53, 10);
+                        output.CopyFrom(value);
+                    }
+                }
+            
+                if (((_bits & 32L) != 0)) 
+                { 
+                    foreach(var value in _Trailer)
+                    {
+                        output.CopyFrom(_headerBytes, 63, 11);
+                        output.CopyFrom(value);
+                    }
+                }
+            
+                if (((_bits & 64L) != 0)) 
+                { 
+                    if (_rawTransferEncoding != null) 
+                    {
+                        output.CopyFrom(_rawTransferEncoding, 0, _rawTransferEncoding.Length);
+                    } else 
+                    foreach(var value in _TransferEncoding)
+                    {
+                        output.CopyFrom(_headerBytes, 74, 21);
+                        output.CopyFrom(value);
+                    }
+                }
+            
+                if (((_bits & 128L) != 0)) 
+                { 
+                    foreach(var value in _Upgrade)
+                    {
+                        output.CopyFrom(_headerBytes, 95, 11);
+                        output.CopyFrom(value);
+                    }
+                }
+            
+                if (((_bits & 256L) != 0)) 
+                { 
+                    foreach(var value in _Via)
+                    {
+                        output.CopyFrom(_headerBytes, 106, 7);
+                        output.CopyFrom(value);
+                    }
+                }
+            
+                if (((_bits & 512L) != 0)) 
+                { 
+                    foreach(var value in _Warning)
+                    {
+                        output.CopyFrom(_headerBytes, 113, 11);
+                        output.CopyFrom(value);
+                    }
+                }
+            
+                if (((_bits & 1024L) != 0)) 
+                { 
+                    foreach(var value in _Allow)
+                    {
+                        output.CopyFrom(_headerBytes, 124, 9);
+                        output.CopyFrom(value);
+                    }
+                }
+            
+                if (((_bits & 2048L) != 0)) 
+                { 
+                    if (_rawContentLength != null) 
+                    {
+                        output.CopyFrom(_rawContentLength, 0, _rawContentLength.Length);
+                    } else 
+                    foreach(var value in _ContentLength)
+                    {
+                        output.CopyFrom(_headerBytes, 133, 18);
+                        output.CopyFrom(value);
+                    }
+                }
+            
+                if (((_bits & 4096L) != 0)) 
+                { 
+                    foreach(var value in _ContentType)
+                    {
+                        output.CopyFrom(_headerBytes, 151, 16);
+                        output.CopyFrom(value);
+                    }
+                }
+            
+                if (((_bits & 8192L) != 0)) 
+                { 
+                    foreach(var value in _ContentEncoding)
+                    {
+                        output.CopyFrom(_headerBytes, 167, 20);
+                        output.CopyFrom(value);
+                    }
+                }
+            
+                if (((_bits & 16384L) != 0)) 
+                { 
+                    foreach(var value in _ContentLanguage)
+                    {
+                        output.CopyFrom(_headerBytes, 187, 20);
+                        output.CopyFrom(value);
+                    }
+                }
+            
+                if (((_bits & 32768L) != 0)) 
+                { 
+                    foreach(var value in _ContentLocation)
+                    {
+                        output.CopyFrom(_headerBytes, 207, 20);
+                        output.CopyFrom(value);
+                    }
+                }
+            
+                if (((_bits & 65536L) != 0)) 
+                { 
+                    foreach(var value in _ContentMD5)
+                    {
+                        output.CopyFrom(_headerBytes, 227, 15);
+                        output.CopyFrom(value);
+                    }
+                }
+            
+                if (((_bits & 131072L) != 0)) 
+                { 
+                    foreach(var value in _ContentRange)
+                    {
+                        output.CopyFrom(_headerBytes, 242, 17);
+                        output.CopyFrom(value);
+                    }
+                }
+            
+                if (((_bits & 262144L) != 0)) 
+                { 
+                    foreach(var value in _Expires)
+                    {
+                        output.CopyFrom(_headerBytes, 259, 11);
+                        output.CopyFrom(value);
+                    }
+                }
+            
+                if (((_bits & 524288L) != 0)) 
+                { 
+                    foreach(var value in _LastModified)
+                    {
+                        output.CopyFrom(_headerBytes, 270, 17);
+                        output.CopyFrom(value);
+                    }
+                }
+            
+                if (((_bits & 1048576L) != 0)) 
+                { 
+                    foreach(var value in _AcceptRanges)
+                    {
+                        output.CopyFrom(_headerBytes, 287, 17);
+                        output.CopyFrom(value);
+                    }
+                }
+            
+                if (((_bits & 2097152L) != 0)) 
+                { 
+                    foreach(var value in _Age)
+                    {
+                        output.CopyFrom(_headerBytes, 304, 7);
+                        output.CopyFrom(value);
+                    }
+                }
+            
+                if (((_bits & 4194304L) != 0)) 
+                { 
+                    foreach(var value in _ETag)
+                    {
+                        output.CopyFrom(_headerBytes, 311, 8);
+                        output.CopyFrom(value);
+                    }
+                }
+            
+                if (((_bits & 8388608L) != 0)) 
+                { 
+                    foreach(var value in _Location)
+                    {
+                        output.CopyFrom(_headerBytes, 319, 12);
+                        output.CopyFrom(value);
+                    }
+                }
+            
+                if (((_bits & 16777216L) != 0)) 
+                { 
+                    foreach(var value in _ProxyAutheticate)
+                    {
+                        output.CopyFrom(_headerBytes, 331, 21);
+                        output.CopyFrom(value);
+                    }
+                }
+            
+                if (((_bits & 33554432L) != 0)) 
+                { 
+                    foreach(var value in _RetryAfter)
+                    {
+                        output.CopyFrom(_headerBytes, 352, 15);
+                        output.CopyFrom(value);
+                    }
+                }
+            
+                if (((_bits & 67108864L) != 0)) 
+                { 
+                    if (_rawServer != null) 
+                    {
+                        output.CopyFrom(_rawServer, 0, _rawServer.Length);
+                    } else 
+                    foreach(var value in _Server)
+                    {
+                        output.CopyFrom(_headerBytes, 367, 10);
+                        output.CopyFrom(value);
+                    }
+                }
+            
+                if (((_bits & 134217728L) != 0)) 
+                { 
+                    foreach(var value in _SetCookie)
+                    {
+                        output.CopyFrom(_headerBytes, 377, 14);
+                        output.CopyFrom(value);
+                    }
+                }
+            
+                if (((_bits & 268435456L) != 0)) 
+                { 
+                    foreach(var value in _Vary)
+                    {
+                        output.CopyFrom(_headerBytes, 391, 8);
+                        output.CopyFrom(value);
+                    }
+                }
+            
+                if (((_bits & 536870912L) != 0)) 
+                { 
+                    foreach(var value in _WWWAuthenticate)
+                    {
+                        output.CopyFrom(_headerBytes, 399, 20);
+                        output.CopyFrom(value);
+                    }
+                }
+            
+        }
+
         public unsafe void Append(byte[] keyBytes, int keyOffset, int keyLength, string value)
         {
             fixed(byte* ptr = keyBytes) { var pUB = ptr + keyOffset; var pUL = (ulong*)pUB; var pUI = (uint*)pUB; var pUS = (ushort*)pUB;
@@ -8018,8 +8220,8 @@ namespace Microsoft.AspNet.Server.Kestrel.Http
                             else
                             {
                                 _bits |= 2L;
-                                HasConnection = true;
                                 _Connection = new StringValues(value);
+                                _rawConnection = null;
                             }
                             return;
                         }
@@ -8065,8 +8267,8 @@ namespace Microsoft.AspNet.Server.Kestrel.Http
                             else
                             {
                                 _bits |= 4L;
-                                HasDefaultDate = false;
                                 _Date = new StringValues(value);
+                                _rawDate = null;
                             }
                             return;
                         }
@@ -8126,8 +8328,8 @@ namespace Microsoft.AspNet.Server.Kestrel.Http
                             else
                             {
                                 _bits |= 67108864L;
-                                HasDefaultServer = false;
                                 _Server = new StringValues(value);
+                                _rawServer = null;
                             }
                             return;
                         }
@@ -8205,8 +8407,8 @@ namespace Microsoft.AspNet.Server.Kestrel.Http
                             else
                             {
                                 _bits |= 64L;
-                                HasTransferEncoding = true;
                                 _TransferEncoding = new StringValues(value);
+                                _rawTransferEncoding = null;
                             }
                             return;
                         }
@@ -8288,8 +8490,8 @@ namespace Microsoft.AspNet.Server.Kestrel.Http
                             else
                             {
                                 _bits |= 2048L;
-                                HasContentLength = true;
                                 _ContentLength = new StringValues(value);
+                                _rawContentLength = null;
                             }
                             return;
                         }
@@ -8548,12 +8750,6 @@ namespace Microsoft.AspNet.Server.Kestrel.Http
                     }
                 
                 state2:
-                    if (_collection.HasDefaultDate)
-                    {
-                        _current = new KeyValuePair<string, StringValues>("Date", DateTime.UtcNow.ToString(Constants.RFC1123DateFormat));
-                        _state = 3;
-                        return true;
-                    }
                     if (((_bits & 4L) != 0))
                     {
                         _current = new KeyValuePair<string, StringValues>("Date", _collection._Date);
@@ -8746,12 +8942,6 @@ namespace Microsoft.AspNet.Server.Kestrel.Http
                     }
                 
                 state26:
-                    if (_collection.HasDefaultServer)
-                    {
-                        _current = new KeyValuePair<string, StringValues>("Server", "Kestrel");
-                        _state = 27;
-                        return true;
-                    }
                     if (((_bits & 67108864L) != 0))
                     {
                         _current = new KeyValuePair<string, StringValues>("Server", _collection._Server);
@@ -8790,359 +8980,6 @@ namespace Microsoft.AspNet.Server.Kestrel.Http
                         return false;
                     }
                     _current = _unknownEnumerator.Current;
-                    return true;
-            }
-        }
-
-        public partial struct ByteEnumerator
-        {
-            public bool MoveNext()
-            {
-                switch (_state)
-                {
-                    
-                        case 0:
-                            goto state0;
-                    
-                        case 1:
-                            goto state1;
-                    
-                        case 2:
-                            goto state2;
-                    
-                        case 3:
-                            goto state3;
-                    
-                        case 4:
-                            goto state4;
-                    
-                        case 5:
-                            goto state5;
-                    
-                        case 6:
-                            goto state6;
-                    
-                        case 7:
-                            goto state7;
-                    
-                        case 8:
-                            goto state8;
-                    
-                        case 9:
-                            goto state9;
-                    
-                        case 10:
-                            goto state10;
-                    
-                        case 11:
-                            goto state11;
-                    
-                        case 12:
-                            goto state12;
-                    
-                        case 13:
-                            goto state13;
-                    
-                        case 14:
-                            goto state14;
-                    
-                        case 15:
-                            goto state15;
-                    
-                        case 16:
-                            goto state16;
-                    
-                        case 17:
-                            goto state17;
-                    
-                        case 18:
-                            goto state18;
-                    
-                        case 19:
-                            goto state19;
-                    
-                        case 20:
-                            goto state20;
-                    
-                        case 21:
-                            goto state21;
-                    
-                        case 22:
-                            goto state22;
-                    
-                        case 23:
-                            goto state23;
-                    
-                        case 24:
-                            goto state24;
-                    
-                        case 25:
-                            goto state25;
-                    
-                        case 26:
-                            goto state26;
-                    
-                        case 27:
-                            goto state27;
-                    
-                        case 28:
-                            goto state28;
-                    
-                        case 29:
-                            goto state29;
-                    
-                    default:
-                        goto state_default;
-                }
-                
-                state0:
-                    if (((_bits & 1L) != 0))
-                    {
-                        _current = new KeyValuePair<byte[], StringValues>(_bytesCacheControl, _collection._CacheControl);
-                        _state = 1;
-                        return true;
-                    }
-                
-                state1:
-                    if (((_bits & 2L) != 0))
-                    {
-                        _current = new KeyValuePair<byte[], StringValues>(_bytesConnection, _collection._Connection);
-                        _state = 2;
-                        return true;
-                    }
-                
-                state2:
-                    if (((_bits & 4L) != 0))
-                    {
-                        _current = new KeyValuePair<byte[], StringValues>(_bytesDate, _collection._Date);
-                        _state = 3;
-                        return true;
-                    }
-                
-                state3:
-                    if (((_bits & 8L) != 0))
-                    {
-                        _current = new KeyValuePair<byte[], StringValues>(_bytesKeepAlive, _collection._KeepAlive);
-                        _state = 4;
-                        return true;
-                    }
-                
-                state4:
-                    if (((_bits & 16L) != 0))
-                    {
-                        _current = new KeyValuePair<byte[], StringValues>(_bytesPragma, _collection._Pragma);
-                        _state = 5;
-                        return true;
-                    }
-                
-                state5:
-                    if (((_bits & 32L) != 0))
-                    {
-                        _current = new KeyValuePair<byte[], StringValues>(_bytesTrailer, _collection._Trailer);
-                        _state = 6;
-                        return true;
-                    }
-                
-                state6:
-                    if (((_bits & 64L) != 0))
-                    {
-                        _current = new KeyValuePair<byte[], StringValues>(_bytesTransferEncoding, _collection._TransferEncoding);
-                        _state = 7;
-                        return true;
-                    }
-                
-                state7:
-                    if (((_bits & 128L) != 0))
-                    {
-                        _current = new KeyValuePair<byte[], StringValues>(_bytesUpgrade, _collection._Upgrade);
-                        _state = 8;
-                        return true;
-                    }
-                
-                state8:
-                    if (((_bits & 256L) != 0))
-                    {
-                        _current = new KeyValuePair<byte[], StringValues>(_bytesVia, _collection._Via);
-                        _state = 9;
-                        return true;
-                    }
-                
-                state9:
-                    if (((_bits & 512L) != 0))
-                    {
-                        _current = new KeyValuePair<byte[], StringValues>(_bytesWarning, _collection._Warning);
-                        _state = 10;
-                        return true;
-                    }
-                
-                state10:
-                    if (((_bits & 1024L) != 0))
-                    {
-                        _current = new KeyValuePair<byte[], StringValues>(_bytesAllow, _collection._Allow);
-                        _state = 11;
-                        return true;
-                    }
-                
-                state11:
-                    if (((_bits & 2048L) != 0))
-                    {
-                        _current = new KeyValuePair<byte[], StringValues>(_bytesContentLength, _collection._ContentLength);
-                        _state = 12;
-                        return true;
-                    }
-                
-                state12:
-                    if (((_bits & 4096L) != 0))
-                    {
-                        _current = new KeyValuePair<byte[], StringValues>(_bytesContentType, _collection._ContentType);
-                        _state = 13;
-                        return true;
-                    }
-                
-                state13:
-                    if (((_bits & 8192L) != 0))
-                    {
-                        _current = new KeyValuePair<byte[], StringValues>(_bytesContentEncoding, _collection._ContentEncoding);
-                        _state = 14;
-                        return true;
-                    }
-                
-                state14:
-                    if (((_bits & 16384L) != 0))
-                    {
-                        _current = new KeyValuePair<byte[], StringValues>(_bytesContentLanguage, _collection._ContentLanguage);
-                        _state = 15;
-                        return true;
-                    }
-                
-                state15:
-                    if (((_bits & 32768L) != 0))
-                    {
-                        _current = new KeyValuePair<byte[], StringValues>(_bytesContentLocation, _collection._ContentLocation);
-                        _state = 16;
-                        return true;
-                    }
-                
-                state16:
-                    if (((_bits & 65536L) != 0))
-                    {
-                        _current = new KeyValuePair<byte[], StringValues>(_bytesContentMD5, _collection._ContentMD5);
-                        _state = 17;
-                        return true;
-                    }
-                
-                state17:
-                    if (((_bits & 131072L) != 0))
-                    {
-                        _current = new KeyValuePair<byte[], StringValues>(_bytesContentRange, _collection._ContentRange);
-                        _state = 18;
-                        return true;
-                    }
-                
-                state18:
-                    if (((_bits & 262144L) != 0))
-                    {
-                        _current = new KeyValuePair<byte[], StringValues>(_bytesExpires, _collection._Expires);
-                        _state = 19;
-                        return true;
-                    }
-                
-                state19:
-                    if (((_bits & 524288L) != 0))
-                    {
-                        _current = new KeyValuePair<byte[], StringValues>(_bytesLastModified, _collection._LastModified);
-                        _state = 20;
-                        return true;
-                    }
-                
-                state20:
-                    if (((_bits & 1048576L) != 0))
-                    {
-                        _current = new KeyValuePair<byte[], StringValues>(_bytesAcceptRanges, _collection._AcceptRanges);
-                        _state = 21;
-                        return true;
-                    }
-                
-                state21:
-                    if (((_bits & 2097152L) != 0))
-                    {
-                        _current = new KeyValuePair<byte[], StringValues>(_bytesAge, _collection._Age);
-                        _state = 22;
-                        return true;
-                    }
-                
-                state22:
-                    if (((_bits & 4194304L) != 0))
-                    {
-                        _current = new KeyValuePair<byte[], StringValues>(_bytesETag, _collection._ETag);
-                        _state = 23;
-                        return true;
-                    }
-                
-                state23:
-                    if (((_bits & 8388608L) != 0))
-                    {
-                        _current = new KeyValuePair<byte[], StringValues>(_bytesLocation, _collection._Location);
-                        _state = 24;
-                        return true;
-                    }
-                
-                state24:
-                    if (((_bits & 16777216L) != 0))
-                    {
-                        _current = new KeyValuePair<byte[], StringValues>(_bytesProxyAutheticate, _collection._ProxyAutheticate);
-                        _state = 25;
-                        return true;
-                    }
-                
-                state25:
-                    if (((_bits & 33554432L) != 0))
-                    {
-                        _current = new KeyValuePair<byte[], StringValues>(_bytesRetryAfter, _collection._RetryAfter);
-                        _state = 26;
-                        return true;
-                    }
-                
-                state26:
-                    if (((_bits & 67108864L) != 0))
-                    {
-                        _current = new KeyValuePair<byte[], StringValues>(_bytesServer, _collection._Server);
-                        _state = 27;
-                        return true;
-                    }
-                
-                state27:
-                    if (((_bits & 134217728L) != 0))
-                    {
-                        _current = new KeyValuePair<byte[], StringValues>(_bytesSetCookie, _collection._SetCookie);
-                        _state = 28;
-                        return true;
-                    }
-                
-                state28:
-                    if (((_bits & 268435456L) != 0))
-                    {
-                        _current = new KeyValuePair<byte[], StringValues>(_bytesVary, _collection._Vary);
-                        _state = 29;
-                        return true;
-                    }
-                
-                state29:
-                    if (((_bits & 536870912L) != 0))
-                    {
-                        _current = new KeyValuePair<byte[], StringValues>(_bytesWWWAuthenticate, _collection._WWWAuthenticate);
-                        _state = 30;
-                        return true;
-                    }
-                
-                state_default:
-                    if (!_hasUnknown || !_unknownEnumerator.MoveNext())
-                    {
-                        _current = default(KeyValuePair<byte[], StringValues>);
-                        return false;
-                    }
-                    var kv = _unknownEnumerator.Current;
-                    _current = new KeyValuePair<byte[], StringValues>(Encoding.ASCII.GetBytes(kv.Key + ": "), kv.Value);
                     return true;
             }
         }

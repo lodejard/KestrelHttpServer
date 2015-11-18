@@ -2,6 +2,7 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Numerics;
 using System.Text;
@@ -617,6 +618,60 @@ namespace Microsoft.AspNet.Server.Kestrel.Infrastructure
                     block = block.Next;
                     index = block.Start;
                 }
+            }
+        }
+
+        public void CopyFrom(string data)
+        {
+            CopyFrom(Encoding.ASCII.GetBytes(data));
+        }
+
+        public void CopyFrom(byte[] data)
+        {
+            CopyFrom(data, 0, data.Length);
+        }
+
+        public void CopyFrom(byte[] data, int offset, int count)
+        {
+            Debug.Assert(_block.Next == null);
+            Debug.Assert(_block.End == _index);
+
+            var block = _block;
+
+            var sourceData = data;
+            var sourceStart = offset;
+            var sourceEnd = offset + count;
+
+            var targetData = block.Array;
+            var targetStart = block.End;
+            var targetEnd = block.Data.Offset + block.Data.Count;
+
+            while (true)
+            {
+                // actual count to copy is remaining data, or unused trailing space in the current block, whichever is smaller
+                var copyCount = Math.Min(sourceEnd - sourceStart, targetEnd - targetStart);
+
+                Buffer.BlockCopy(sourceData, sourceStart, targetData, targetStart, copyCount);
+                sourceStart += copyCount;
+                targetStart += copyCount;
+
+                // if this means all source data has been copied
+                if (sourceStart == sourceEnd)
+                {
+                    // increase occupied space in the block, and adjust iterator at start of unused trailing space
+                    block.End = targetStart;
+                    _block = block;
+                    _index = targetStart;
+                    return;
+                }
+
+                // otherwise another block needs to be allocated to follow this one
+                block.Next = block.Pool.Lease();
+                block = block.Next;
+
+                targetData = block.Array;
+                targetStart = block.End;
+                targetEnd = block.Data.Offset + block.Data.Count;
             }
         }
     }
